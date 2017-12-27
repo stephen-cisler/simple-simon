@@ -34,3 +34,7 @@
 #box-3:hover {
     background-color: #004bcc;
 }
+
+#game-over {
+    display: none;
+}

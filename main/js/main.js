@@ -7,7 +7,7 @@ $(document).ready(function () {
     var simonSequence = [];
 
     // Array to hold the order of player guesses each round
-    var playerGuesses = [];
+    var playerSequence = [];
 
     // Counter to hold current game round number
     var gameRound = 0;
@@ -19,13 +19,39 @@ $(document).ready(function () {
     var box3 = $('#box-3');
     var gameButtons = [box0, box1, box2, box3];
 
+
+
     // GAME FUNCTIONALITY ---------
 
 
-    var testSequence = [0,3,0,2,1,3,0,1];
+
+    // Starts the Game with click event. Removes Start button so multiple games cannot run simultaneously
+    function startGame() {
+        $('#button').click(function () {
+            $('#button').css('display', 'none');
+            simonSequence = [];
+            gameRound = 0;
+            beginGameRound();
+        });
+    }
+
+    // Runs each round. Adding another button to remember, click listeners for the player, and calling all logic from other functions
+    function beginGameRound() {
+        gameRound++;
+        playerSequence = [];
+        generateNewChoice();
+        showSequence();
+        makeBoardInteractive()
+    }
+
+    // Generates new random number/box choice to add to simonSequence
+    function generateNewChoice() {
+        simonSequence.push(Math.floor((Math.random() * 4)));
+    }
 
     // Display simonSequence for player to imitate
     function showSequence() {
+        removeClickEventsOnButtons();
         for (var i = 0; i < simonSequence.length; i++) {
             (function(i) {
                 setTimeout(function() {
@@ -39,34 +65,20 @@ $(document).ready(function () {
         }
     }
 
-
-
-
-    // Random number between 1 and 4
-    function getRandomChoice() {
-        return Math.floor((Math.random() * 4));
+    // Removes click events on gameButtons temporarily
+    function removeClickEventsOnButtons() {
+        gameButtons.forEach(function (element) {
+            element.off('click');
+        });
     }
 
-    function generateNewChoice() {
-        simonSequence.push(getRandomChoice());
-    }
-
-    // Adds click-listener to each button using each's index in the gameButton array
-    function addClickEventsToButtons() {
-        playerGuesses = [];
-        generateNewChoice();
-        showSequence();
+    // Starts the player's interactivity with click events on the game buttons
+    function makeBoardInteractive() {
         gameButtons.forEach(function (element, index) {
             gameButtons[index].click(function () {
                 gameButtons[index].fadeOut( 500, function () {
-                    playerGuesses.push(index);
-                    if (playerGuesses.length === simonSequence.length) {
-                        removeClickEventsOnButtons();
-                        if (compareSequences()) {
-                            setTimeout(addClickEventsToButtons, 1400);
-                            // addClickEventsToButtons()
-                        }
-                    }
+                    playerSequence.push(index);
+                    checkPlayersSequence();
                     gameButtons[index].fadeIn( 500, function () {
                     });
                 });
@@ -74,16 +86,25 @@ $(document).ready(function () {
         });
     }
 
-    function removeClickEventsOnButtons() {
-        gameButtons.forEach(function (element, index) {
-            element.off('click');
-        });
+    // Checks to see if Player was correct. If yes, then starts another round. If not, it stops the game and returns the START button for choice to play again
+    function checkPlayersSequence() {
+        if (playerSequence.length === simonSequence.length) {
+            removeClickEventsOnButtons();
+            if (compareSequences()) {
+                setTimeout(beginGameRound, 1400);
+                // addClickEventsToButtons()
+            } else {
+                $('#game-over').css('display', 'block');
+                $('#button').css('display', 'block');
+            }
+        }
     }
 
+    // Determines if the simonSequence and playerSequence match. Returns FALSE if they don't.
     function compareSequences() {
         var playerIsCorrect = true;
         for (var i = 0; i < simonSequence.length; i++) {
-            if (playerGuesses[i] !== simonSequence[i]) {
+            if (playerSequence[i] !== simonSequence[i]) {
                 playerIsCorrect = false;
             }
         }
@@ -92,65 +113,7 @@ $(document).ready(function () {
 
 
 
-    // function time() {
-    //     setTimeout(function () {
-    //         console.log("waiting for player")
-    //     }, 5000)
-    // }
+    // INITIALIZING THE GAME
 
-    // var width = 0;
-    // var id = setInterval(frame, 10);
-    // function frame() {
-    //     if (width == 100) {
-    //         clearInterval(id);
-    //     } else {
-    //         width++;
-    //         elem.style.width = width + '%';
-    //     }
-    // }
-        var gameInProgress = true;
-
-    // Waits for player to pick
-    var waiting = setInterval(function () {
-        console.log("waiting for player");
-        if (playerGuesses.length === simonSequence.length) {
-            // removeClickEventsOnButtons();
-            clearInterval(waiting);
-            for (var i = 0; i < simonSequence.length; i++) {
-                if (playerGuesses[i] !== simonSequence[i]) {
-                    console.log("game over");
-                    gameInProgress = false;
-                }
-            }
-        }
-    }, 1000);
-
-    // ForEach to apply listeners
-
-    // make the button disappear after being activated
-    $('#button').click(function () {
-        $('#button').css('display', 'none');
-        addClickEventsToButtons();
-        // gameButtons.forEach(function (element, index) {
-        //     addClickEventsToButtons(index);
-        // });
-        // startGame();
-    });
-
-    function startGame() {
-        // while (true) {
-
-            generateNewChoice();
-            console.log("current sequence is " + simonSequence);
-            showSequence();
-            gameButtons.forEach(function (element, index) {
-                addClickEventsToButtons(index);
-            });
-
-            // while (playerGuesses.length < simonSequence.length) {
-            // }
-
-
-        // }
-    }
+    startGame();
 });
