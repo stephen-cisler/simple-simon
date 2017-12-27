@@ -52,14 +52,23 @@ $(document).ready(function () {
     }
 
     // Adds click-listener to each button using each's index in the gameButton array
-    function addClickEventsToButtons(num) {
-        gameButtons[num].click(function () {
-            gameButtons[num].fadeOut( 500, function () {
-                playerGuesses.push(num);
-                if (playerGuesses.length === simonSequence.length) {
-                    removeClickEventsOnButtons();
-                }
-                gameButtons[num].fadeIn( 500, function () {
+    function addClickEventsToButtons() {
+        playerGuesses = [];
+        generateNewChoice();
+        showSequence();
+        gameButtons.forEach(function (element, index) {
+            gameButtons[index].click(function () {
+                gameButtons[index].fadeOut( 500, function () {
+                    playerGuesses.push(index);
+                    if (playerGuesses.length === simonSequence.length) {
+                        removeClickEventsOnButtons();
+                        if (compareSequences()) {
+                            setTimeout(addClickEventsToButtons, 1400);
+                            // addClickEventsToButtons()
+                        }
+                    }
+                    gameButtons[index].fadeIn( 500, function () {
+                    });
                 });
             });
         });
@@ -70,6 +79,18 @@ $(document).ready(function () {
             element.off('click');
         });
     }
+
+    function compareSequences() {
+        var playerIsCorrect = true;
+        for (var i = 0; i < simonSequence.length; i++) {
+            if (playerGuesses[i] !== simonSequence[i]) {
+                playerIsCorrect = false;
+            }
+        }
+        return playerIsCorrect;
+    }
+
+
 
     // function time() {
     //     setTimeout(function () {
@@ -109,7 +130,11 @@ $(document).ready(function () {
     // make the button disappear after being activated
     $('#button').click(function () {
         $('#button').css('display', 'none');
-        startGame();
+        addClickEventsToButtons();
+        // gameButtons.forEach(function (element, index) {
+        //     addClickEventsToButtons(index);
+        // });
+        // startGame();
     });
 
     function startGame() {
