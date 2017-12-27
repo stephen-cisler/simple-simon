@@ -3,38 +3,47 @@
     width: 200px;
 }
 
+.container {
+    background-color: black;
+}
+
 #box-0 {
-    background-color: #21b026;
+    background-color: #003EDB;
 }
 
 #box-1 {
-    background-color: #cc2424;
+    background-color: #00ACDB;
 }
 
 #box-2 {
-    background-color: #ffcb01;
+    background-color: #9D00DB;
 }
 
 #box-3 {
-    background-color: #0a64ff;
+    background-color: #DB003E;
 }
 
 #box-0:hover {
-    background-color: #19851d;
+    background-color: #002b99;
 }
 
 #box-1:hover {
-    background-color: #851919;
+    background-color: #007899;
 }
 
 #box-2:hover {
-    background-color: #cca300;
+    background-color: #6e0099;
 }
 
 #box-3:hover {
-    background-color: #004bcc;
+    background-color: #99002b;
 }
 
 #game-over {
     display: none;
 }
+
+/* #003EDB blue */
+/* #00ACDB cyan */
+/* #9D00DB purple */
+/* #DB003E red */
