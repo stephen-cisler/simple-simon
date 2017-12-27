@@ -26,12 +26,12 @@ $(document).ready(function () {
 
     // Display simonSequence for player to imitate
     function showSequence() {
-        for (var i = 0; i < testSequence.length; i++) {
+        for (var i = 0; i < simonSequence.length; i++) {
             (function(i) {
                 setTimeout(function() {
-                    console.log(testSequence[i]);
-                    gameButtons[testSequence[i]].fadeOut( 500, function () {
-                        gameButtons[testSequence[i]].fadeIn( 500, function () {
+                    console.log(simonSequence[i]);
+                    gameButtons[simonSequence[i]].fadeOut( 500, function () {
+                        gameButtons[simonSequence[i]].fadeIn( 500, function () {
                         });
                     });
                 }, 2000 * i);
@@ -39,11 +39,16 @@ $(document).ready(function () {
         }
     }
 
-    showSequence();
+
+
 
     // Random number between 1 and 4
     function getRandomChoice() {
-        return Math.random() * (1 - 4) + 1;
+        return Math.floor((Math.random() * 4));
+    }
+
+    function generateNewChoice() {
+        simonSequence.push(getRandomChoice());
     }
 
     // Adds click-listener to each button using each's index in the gameButton array
@@ -51,15 +56,76 @@ $(document).ready(function () {
         gameButtons[num].click(function () {
             gameButtons[num].fadeOut( 500, function () {
                 playerGuesses.push(num);
+                if (playerGuesses.length === simonSequence.length) {
+                    removeClickEventsOnButtons();
+                }
                 gameButtons[num].fadeIn( 500, function () {
                 });
             });
         });
     }
 
+    function removeClickEventsOnButtons() {
+        gameButtons.forEach(function (element, index) {
+            element.off('click');
+        });
+    }
+
+    // function time() {
+    //     setTimeout(function () {
+    //         console.log("waiting for player")
+    //     }, 5000)
+    // }
+
+    // var width = 0;
+    // var id = setInterval(frame, 10);
+    // function frame() {
+    //     if (width == 100) {
+    //         clearInterval(id);
+    //     } else {
+    //         width++;
+    //         elem.style.width = width + '%';
+    //     }
+    // }
+        var gameInProgress = true;
+
+    // Waits for player to pick
+    var waiting = setInterval(function () {
+        console.log("waiting for player");
+        if (playerGuesses.length === simonSequence.length) {
+            // removeClickEventsOnButtons();
+            clearInterval(waiting);
+            for (var i = 0; i < simonSequence.length; i++) {
+                if (playerGuesses[i] !== simonSequence[i]) {
+                    console.log("game over");
+                    gameInProgress = false;
+                }
+            }
+        }
+    }, 1000);
+
     // ForEach to apply listeners
-    gameButtons.forEach(function (element, index) {
-       addClickEventsToButtons(index);
+
+    // make the button disappear after being activated
+    $('#button').click(function () {
+        $('#button').css('display', 'none');
+        startGame();
     });
 
+    function startGame() {
+        // while (true) {
+
+            generateNewChoice();
+            console.log("current sequence is " + simonSequence);
+            showSequence();
+            gameButtons.forEach(function (element, index) {
+                addClickEventsToButtons(index);
+            });
+
+            // while (playerGuesses.length < simonSequence.length) {
+            // }
+
+
+        // }
+    }
 });
