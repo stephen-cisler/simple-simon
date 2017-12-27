@@ -21,6 +21,31 @@ $(document).ready(function () {
 
     // GAME FUNCTIONALITY ---------
 
+
+    var testSequence = [0,3,0,2,1,3,0,1];
+
+    // Display simonSequence for player to imitate
+    function showSequence() {
+        for (var i = 0; i < testSequence.length; i++) {
+            (function(i) {
+                setTimeout(function() {
+                    console.log(testSequence[i]);
+                    gameButtons[testSequence[i]].fadeOut( 500, function () {
+                        gameButtons[testSequence[i]].fadeIn( 500, function () {
+                        });
+                    });
+                }, 2000 * i);
+            })(i);
+        }
+    }
+
+    showSequence();
+
+    // Random number between 1 and 4
+    function getRandomChoice() {
+        return Math.random() * (1 - 4) + 1;
+    }
+
     // Adds click-listener to each button using each's index in the gameButton array
     function addClickEventsToButtons(num) {
         gameButtons[num].click(function () {
