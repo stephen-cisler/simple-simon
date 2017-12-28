@@ -12,6 +12,9 @@ $(document).ready(function () {
     // Counter to hold current game round number
     var gameRound = 0;
 
+    // Highest score achieved in current session
+    var highScore = 0;
+
     // Game button jQuery selectors
     var box0 = $('#box-0');
     var box1 = $('#box-1');
@@ -38,6 +41,7 @@ $(document).ready(function () {
     // Runs each round. Adding another button to remember, click listeners for the player, and calling all logic from other functions
     function beginGameRound() {
         gameRound++;
+        updateRound();
         playerSequence = [];
         generateNewChoice();
         showSequence();
@@ -94,6 +98,7 @@ $(document).ready(function () {
                 setTimeout(beginGameRound, 1400);
                 // addClickEventsToButtons()
             } else {
+                showHighScore();
                 $('#game-over').css('display', 'block');
                 $('#button').css('display', 'block');
             }
@@ -109,6 +114,17 @@ $(document).ready(function () {
             }
         }
         return playerIsCorrect;
+    }
+
+    function updateRound() {
+        $('#roundCount').text(gameRound);
+    }
+    
+    function showHighScore() {
+        if (highScore < gameRound) {
+            highScore = gameRound;
+            $('#highScore').text(highScore)
+        }
     }
 
 
