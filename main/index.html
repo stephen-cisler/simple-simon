@@ -5,11 +5,12 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
     <link rel="stylesheet" href="css/main.css">
     <title>Document</title>
 </head>
 <body>
+
+<h1>Simple Simon</h1>
 
 <div class="board">
     <div class="game-body">
@@ -18,21 +19,24 @@
         <div id="box-2" class="color-boxes"></div>
         <div id="box-3" class="color-boxes"></div>
         <div class="center-piece">
-
             <div class="game-controls">
                 <div class="game-info">
-                    <h4>Round: <span id="roundCount"></span></h4>
-                    <h4>High Score: <span id="highScore"></span></h4>
+                    <h4>- Round -<br><span id="roundCount">0</span></h4>
+                    <h4>- High Score -<br><span id="highScore">0</span></h4>
                 </div>
                 <div class="rules">
-                    <p>Simon will randomly make a sequence which you need to repeat.<br>Each round, Simon will add one new color to the sequence.<br>How good is your memory?</p>
+                    <p>Simon will randomly make a sequence which you need to repeat.<br>Each round, Simon will add one new color to the sequence.<br>How good is your memory?
+                    </p>
                 </div>
                 <div class="bottom">
                     <div class="turn">
                         <h2 id="current-player">Simon's Turn</h2>
                     </div>
-                    <div class="start-button" id="button">
+                    <div class="start-button" id="start-button">
                         <h3>Start Game!</h3>
+                    </div>
+                    <div id="game-over">
+                        <h3>GAME OVER</h3>
                     </div>
                 </div>
             </div>

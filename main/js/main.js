@@ -3,7 +3,8 @@ $(document).ready(function () {
 
     // GAME VARIABLES -------------
 
-    // Array to preserve the random order of boxes generated each game
+
+    // Array to preserve the random order of Game Buttons generated each game
     var simonSequence = [];
 
     // Array to hold the order of player guesses each round
@@ -12,26 +13,26 @@ $(document).ready(function () {
     // Counter to hold current game round number
     var gameRound = 0;
 
-    // Highest score achieved in current session
+    // Highest round achieved in current session
     var highScore = 0;
 
     // Game button jQuery selectors
-    var box0 = $('#box-0');
-    var box1 = $('#box-1');
-    var box2 = $('#box-2');
-    var box3 = $('#box-3');
-    var gameButtons = [box0, box1, box2, box3];
+    var gameButtons = [$('#box-0'), $('#box-1'), $('#box-2'), $('#box-3')];
 
+    // jQuery selectors for center-piece elements
     var currentPlayer = $('#current-player');
+    var gameOver = $('#game-over');
+    var startButton = $('#start-button');
+
 
     // GAME FUNCTIONALITY ---------
 
 
-
     // Starts the Game with click event. Removes Start button so multiple games cannot run simultaneously
     function startGame() {
-        $('#button').click(function () {
-            $('#button').css('display', 'none');
+        startButton.click(function () {
+            gameOver.css('display', 'none');
+            startButton.css('display', 'none');
             currentPlayer.css('display', 'block');
             simonSequence = [];
             gameRound = 0;
@@ -73,6 +74,7 @@ $(document).ready(function () {
         }
     }
 
+    // Displays it is players turn, after timing how long the showSequence will take
     function yourTurn() {
         setTimeout(function () {
             currentPlayer.text('Your Turn');
@@ -110,9 +112,9 @@ $(document).ready(function () {
                 // addClickEventsToButtons()
             } else {
                 showHighScore();
-                $('#game-over').css('display', 'block');
                 currentPlayer.css('display', 'none');
-                $('#button').css('display', 'block');
+                startButton.css('display', 'block');
+                gameOver.css('display', 'block');
             }
         }
     }
@@ -128,18 +130,18 @@ $(document).ready(function () {
         return playerIsCorrect;
     }
 
+    // Inserts current round number on html page
     function updateRound() {
         $('#roundCount').text(gameRound);
     }
-    
+
+    // Inserts current round number as high score on html page, if larger than current high score
     function showHighScore() {
         if (highScore < gameRound) {
             highScore = gameRound;
             $('#highScore').text(highScore)
         }
     }
-
-
 
     // INITIALIZING THE GAME
 

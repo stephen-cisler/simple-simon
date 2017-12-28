@@ -1,9 +1,9 @@
 body {
     margin: 0;
-    padding-top: 5%;
-    background-color: black;
+    background-color: #FFF;
     font-family: Futura, sans-serif;
-    color: white;
+    color: #000;
+    text-align: center;
 }
 
 .board {
@@ -26,16 +26,16 @@ body {
 .color-boxes {
     display: inline-block;
     position: relative;
-    margin: 0%;
+    margin: 0;
     float: left;
     width: 50%;
     height: 50%;
     box-sizing: border-box;
-    border: solid #FFF;
+    border: solid #000;
 }
 
 .center-piece {
-    background-color: black;
+    background-color: #FFF;
     width: 70%;
     height: 70%;
     position: absolute;
@@ -43,7 +43,7 @@ body {
     top: 15%;
     left: 15%;
     box-sizing: border-box;
-    border: 2px solid white;
+    border: 2px solid #000;
 }
 
 .center-piece h4 {
@@ -56,13 +56,17 @@ body {
     margin: 0 auto;
 }
 .game-info {
-    width: 60%;
+    width: 65%;
     margin: 0 auto;
 }
 
+.game-info h4 {
+    margin-bottom: -18%;
+}
+
 .rules {
-    text-align: center;
     width: 82%;
+    top: 33%;
     left: 9%;
     position: absolute;
 }
@@ -72,21 +76,27 @@ body {
 }
 
 
-.start-button {
+#start-button {
     margin: auto;
     background-color: lightgray;
     width: 150px;
     height: 40px;
-    text-align: center;
     border-radius: 10px;
 }
 
-.start-button h3 {
+#start-button h3 {
     padding-top: 6px;
 }
 
-.start-button:hover {
+#start-button:hover {
     background-color: darkgray;
+}
+
+#game-over {
+    display: none;
+}
+#game-over h3 {
+    margin-bottom: 0;
 }
 
 
