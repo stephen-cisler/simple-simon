@@ -22,7 +22,7 @@ $(document).ready(function () {
     var box3 = $('#box-3');
     var gameButtons = [box0, box1, box2, box3];
 
-
+    var currentPlayer = $('#current-player');
 
     // GAME FUNCTIONALITY ---------
 
@@ -32,6 +32,7 @@ $(document).ready(function () {
     function startGame() {
         $('#button').click(function () {
             $('#button').css('display', 'none');
+            currentPlayer.css('display', 'block');
             simonSequence = [];
             gameRound = 0;
             beginGameRound();
@@ -42,9 +43,11 @@ $(document).ready(function () {
     function beginGameRound() {
         gameRound++;
         updateRound();
+        currentPlayer.text('Simon\'s Turn');
         playerSequence = [];
         generateNewChoice();
         showSequence();
+        // currentPlayer.text('Your Turn');
         makeBoardInteractive()
     }
 
@@ -55,6 +58,7 @@ $(document).ready(function () {
 
     // Display simonSequence for player to imitate
     function showSequence() {
+        currentPlayer.text('Simon\'s Turn');
         removeClickEventsOnButtons();
         for (var i = 0; i < simonSequence.length; i++) {
             (function(i) {
@@ -67,6 +71,12 @@ $(document).ready(function () {
                 }, 2000 * i);
             })(i);
         }
+    }
+
+    function yourTurn() {
+        setTimeout(function () {
+            currentPlayer.text('Your Turn');
+        }, (2000 * simonSequence.length));
     }
 
     // Removes click events on gameButtons temporarily
@@ -88,6 +98,7 @@ $(document).ready(function () {
                 });
             });
         });
+        yourTurn();
     }
 
     // Checks to see if Player was correct. If yes, then starts another round. If not, it stops the game and returns the START button for choice to play again
@@ -100,6 +111,7 @@ $(document).ready(function () {
             } else {
                 showHighScore();
                 $('#game-over').css('display', 'block');
+                currentPlayer.css('display', 'none');
                 $('#button').css('display', 'block');
             }
         }
