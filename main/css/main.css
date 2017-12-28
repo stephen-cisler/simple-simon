@@ -1,26 +1,52 @@
 .color-box {
-    height: 200px;
-    width: 200px;
+    display: inline-block;
+    position: relative;
+    margin: 0%;
+    float: left;
+    width: 50%;
+    height: 190px;
 }
 
+.button-box {
+    width: 400px;
+    height: 400px;
+}
 .container {
     background-color: black;
 }
 
+.center-piece {
+    background-color: black;
+    width: 275px;
+    height: 275px;
+    position: absolute;
+    border-radius: 100%;
+    top: 53px;
+    left: 63px;
+}
+
 #box-0 {
     background-color: #003EDB;
+    float: left;
+    border-top-left-radius: 200px;
 }
 
 #box-1 {
     background-color: #00ACDB;
+    border-top-right-radius: 200px;
+
 }
 
 #box-2 {
     background-color: #9D00DB;
+    border-bottom-left-radius: 200px;
+    float: left;
 }
 
 #box-3 {
     background-color: #DB003E;
+    border-bottom-right-radius: 200px;
+    float: left;
 }
 
 #box-0:hover {
@@ -42,6 +68,7 @@
 #game-over {
     display: none;
 }
+
 
 /* #003EDB blue */
 /* #00ACDB cyan */
