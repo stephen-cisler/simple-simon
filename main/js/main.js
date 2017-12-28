@@ -3,7 +3,8 @@ $(document).ready(function () {
 
     // GAME VARIABLES -------------
 
-    // Array to preserve the random order of boxes generated each game
+
+    // Array to preserve the random order of Game Buttons generated each game
     var simonSequence = [];
 
     // Array to hold the order of player guesses each round
@@ -12,23 +13,27 @@ $(document).ready(function () {
     // Counter to hold current game round number
     var gameRound = 0;
 
-    // Game button jQuery selectors
-    var box0 = $('#box-0');
-    var box1 = $('#box-1');
-    var box2 = $('#box-2');
-    var box3 = $('#box-3');
-    var gameButtons = [box0, box1, box2, box3];
+    // Highest round achieved in current session
+    var highScore = 0;
 
+    // Game button jQuery selectors
+    var gameButtons = [$('#box-0'), $('#box-1'), $('#box-2'), $('#box-3')];
+
+    // jQuery selectors for center-piece elements
+    var currentPlayer = $('#current-player');
+    var gameOver = $('#game-over');
+    var startButton = $('#start-button');
 
 
     // GAME FUNCTIONALITY ---------
 
 
-
     // Starts the Game with click event. Removes Start button so multiple games cannot run simultaneously
     function startGame() {
-        $('#button').click(function () {
-            $('#button').css('display', 'none');
+        startButton.click(function () {
+            gameOver.css('display', 'none');
+            startButton.css('display', 'none');
+            currentPlayer.css('display', 'block');
             simonSequence = [];
             gameRound = 0;
             beginGameRound();
@@ -38,9 +43,12 @@ $(document).ready(function () {
     // Runs each round. Adding another button to remember, click listeners for the player, and calling all logic from other functions
     function beginGameRound() {
         gameRound++;
+        updateRound();
+        currentPlayer.text('Simon\'s Turn');
         playerSequence = [];
         generateNewChoice();
         showSequence();
+        // currentPlayer.text('Your Turn');
         makeBoardInteractive()
     }
 
@@ -51,6 +59,7 @@ $(document).ready(function () {
 
     // Display simonSequence for player to imitate
     function showSequence() {
+        currentPlayer.text('Simon\'s Turn');
         removeClickEventsOnButtons();
         for (var i = 0; i < simonSequence.length; i++) {
             (function(i) {
@@ -63,6 +72,13 @@ $(document).ready(function () {
                 }, 2000 * i);
             })(i);
         }
+    }
+
+    // Displays it is players turn, after timing how long the showSequence will take
+    function yourTurn() {
+        setTimeout(function () {
+            currentPlayer.text('Your Turn');
+        }, (2000 * simonSequence.length));
     }
 
     // Removes click events on gameButtons temporarily
@@ -84,6 +100,7 @@ $(document).ready(function () {
                 });
             });
         });
+        yourTurn();
     }
 
     // Checks to see if Player was correct. If yes, then starts another round. If not, it stops the game and returns the START button for choice to play again
@@ -94,8 +111,10 @@ $(document).ready(function () {
                 setTimeout(beginGameRound, 1400);
                 // addClickEventsToButtons()
             } else {
-                $('#game-over').css('display', 'block');
-                $('#button').css('display', 'block');
+                showHighScore();
+                currentPlayer.css('display', 'none');
+                startButton.css('display', 'block');
+                gameOver.css('display', 'block');
             }
         }
     }
@@ -111,7 +130,18 @@ $(document).ready(function () {
         return playerIsCorrect;
     }
 
+    // Inserts current round number on html page
+    function updateRound() {
+        $('#roundCount').text(gameRound);
+    }
 
+    // Inserts current round number as high score on html page, if larger than current high score
+    function showHighScore() {
+        if (highScore < gameRound) {
+            highScore = gameRound;
+            $('#highScore').text(highScore)
+        }
+    }
 
     // INITIALIZING THE GAME
 
